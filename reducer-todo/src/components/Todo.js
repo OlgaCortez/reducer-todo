@@ -1,19 +1,19 @@
 import React from 'react';
 
-const Todo = ({list, dispatch}) => {
-    // const toggleComplete = () => {
-    //     dispatch({
-    //         type: 'TOGGLE_COMPLETED',
-    //         payload: list.id
-    //     });
-    // };
-
-    return(
+const Todo = props => {
+    const toggleItem = () => {
+        props.toggleItem(props.item.id);
+    };
+    
+   return (
         <div 
-        className={`list${list.completed ? ' completed' : ''}`}
-        onClick={() => dispatch({type: 'TOGGLE_COMPLETED'})}
-        >
-            <p>{list.item}</p>
+        className={`todo${props.item.completed ? ' completed' : ''}`}
+
+        onClick={toggleItem}
+
+        style={{ textDecoration: props.item.completed ? "line-through" : ""}}>
+
+            <p>{props.item.item}</p>
         </div>
     )
 };

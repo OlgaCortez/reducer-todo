@@ -1,32 +1,37 @@
 import React, {useState} from 'react';
 
 
-const TodoForm = ({dispatch}) => {
-    const [item, setItem] = useState('');
+const TodoForm = props => {
+    const [input, setInput] = useState('');
 
    const handleChanges = e => {
-     setItem(e.target.value);
+     setInput(e.target.value);
     };
 
-    const submitTodo = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        dispatch({
-            type: 'ADD_ITEM',
-            payload: item
-        })
-        setItem('');
+        props.addItem(input);
+        setInput('');
     };
 
-         return(
-            <form onSubmit={submitTodo}>
+    const clearItem = () => {
+        props.clearItem();
+    };
+
+         return (
+            <form onSubmit={handleSubmit}>
+
                 <input
                 type="text"
-                value={item}
+                value={input}
                 name="todo"
                 placeholder="...add todo"
                 onChange={handleChanges}
                 />
-                <button className="add-btn">Add Todo <i class="fas fa-plus"></i></button>
+
+                <button className="add-btn">Add Todo</button>
+
+                <button onClick={clearItem}>Clear Item</button>
             </form>
         );
     }

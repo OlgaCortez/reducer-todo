@@ -1,4 +1,5 @@
-export const list = [
+export const initialState = {
+    todo: [
         {
             item: 'Go to Area 51 & get an 👽',
             completed: false,
@@ -14,28 +15,43 @@ export const list = [
             completed: false,
             id: 3
         }
-];
+    ]
+};
         
     
 
-export const TodoReducer = (state, action) => {
+export const reducer = (state, action) => {
     switch(action.type) {
         case 'TOGGLE_COMPLETED':
-            return state.map(list => {
-                if(list.id === action.payload) {
-                    return {...list, completed: !list.completed};
+            let completedTodo  = state.todo.map(item => {
+                if (item.id === action.payload) {
+                    return {
+                        ...item,
+                        completed: !item.completed
+                    }
+                } else {
+                    return item;
                 }
-                return list;
-            });
-        case 'ADD_ITEM':
-            return [
+            })
+            return {
                 ...state, 
-                { item: action.payload,
-                completed: false,
-                id: Date.now() }
-                ];
-        case 'CLEAR':
-            return state.filter(list => !list.completed)
+                todo: completedTodo
+            }
+        case 'ADD_ITEM':
+            let newTodo = {
+                id: Date.now(),
+                item: action.payload,
+                completed: false
+            }
+            return {
+                ...state,
+                todo: [...state.todo, newTodo]
+            }
+        case 'CLEAR_ITEMS':
+            return {
+                ...state, 
+                todo: state.todo.filter(item => !item.completed)
+            };
           default:
             return state;
     }
